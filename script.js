@@ -37,11 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentQuestionIndex = 0;
     let userAnswers = Array(questions.length).fill(0);
     let currentPlayingAudio = null;
-    let isTurningPage = false;
+    let isTransitioning = false;
 
     // --- LOGIC CHÍNH ---
 
-    // Cài đặt nút bật/tắt âm thanh
     soundToggleBtn.addEventListener('click', () => {
         backgroundAudio.muted = !backgroundAudio.muted;
         updateSoundIcon();
@@ -52,22 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
         soundToggleBtn.classList.toggle('sound-on', !backgroundAudio.muted);
     }
 
-    // XỬ LÝ KHI NHẤN NÚT BẮT ĐẦU
     startBtn.addEventListener('click', () => {
-        // Cú nhấp chuột của người dùng đã "mở khóa" quyền phát âm thanh cho trình duyệt
         console.log("Start button clicked. Unlocking audio...");
 
-        // 1. Phát nhạc nền và cập nhật icon
         backgroundAudio.play().catch(e => console.error("Lỗi phát nhạc nền:", e));
         updateSoundIcon();
 
-        // 2. Phát audio giới thiệu
         introAudio.play().catch(e => console.error("Lỗi phát audio giới thiệu:", e));
-
-        // 3. Ẩn nút bắt đầu đi để người dùng không nhấn lần nữa
         startBtn.classList.add('hidden');
 
-        // 4. SAU KHI audio giới thiệu phát xong, mới chuyển sang phần câu hỏi
         introAudio.onended = () => {
             console.log("Intro audio ended. Starting quiz...");
             part1.classList.add('hidden');
@@ -95,12 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsBtn.classList.toggle('hidden', index !== questions.length - 1);
     }
 
-    function turnPage(direction) {
-        if (isTurningPage) return;
-        isTurningPage = true;
+    function transitionToQuestion(direction) {
+        if (isTransitioning) return;
+        isTransitioning = true;
 
-        playPageTurnSound();
-        part2.classList.add('is-turning-out');
+        // === KÍCH HOẠT LẠI ÂM THANH LẬT TRANG TẠI ĐÂY ===
+        playPageTurnSound(); 
+
+        part2.classList.add('is-fading-out');
 
         part2.addEventListener('animationend', () => {
             if (direction === 'next') {
@@ -111,12 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             showQuestion(currentQuestionIndex);
 
-            part2.classList.remove('is-turning-out');
-            part2.classList.add('is-turning-in');
+            part2.classList.remove('is-fading-out');
+            part2.classList.add('is-fading-in');
 
             part2.addEventListener('animationend', () => {
-                part2.classList.remove('is-turning-in');
-                isTurningPage = false;
+                part2.classList.remove('is-fading-in');
+                isTransitioning = false;
             }, { once: true });
 
         }, { once: true });
@@ -127,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
         userAnswers[currentQuestionIndex] = selectedOption ? parseInt(selectedOption.value) : 0;
     }
 
+    // Hàm phát âm thanh lật trang
     function playPageTurnSound() {
         const sound = pageTurnSound.cloneNode(true);
         sound.volume = 0.7;
@@ -135,12 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nextBtn.addEventListener('click', () => {
         saveCurrentAnswer();
-        turnPage('next');
+        transitionToQuestion('next');
     });
 
     backBtn.addEventListener('click', () => {
         saveCurrentAnswer();
-        turnPage('back');
+        transitionToQuestion('back');
     });
 
     resultsBtn.addEventListener('click', () => {
@@ -186,28 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
             resultText.classList.add('is-visible');
         }, 3000);
     }
-
-    function resetTest() {
-        userAnswers.fill(0);
-        currentQuestionIndex = 0;
-        isTurningPage = false;
-
-        resultWrapper.classList.add('hidden');
-        part3.classList.remove('is-visible');
-        resultText.classList.remove('is-visible');
-        restartBtn.classList.remove('is-visible');
-        resultText.innerHTML = '';
-
-        part1.classList.remove('hidden'); // Hiển thị lại màn hình bắt đầu
-        startBtn.classList.remove('hidden'); // Hiển thị lại nút bắt đầu
-        document.body.style.backgroundImage = "url('background_main.jpg')";
-    }
     
-    // Sửa hàm reset để nó quay về màn hình đầu tiên một cách chính xác
     restartBtn.addEventListener('click', () => {
         userAnswers.fill(0);
         currentQuestionIndex = 0;
-        isTurningPage = false; 
+        isTransitioning = false; 
 
         resultWrapper.classList.add('hidden');
         part3.classList.remove('is-visible');
@@ -215,9 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
         restartBtn.classList.remove('is-visible');
         resultText.innerHTML = '';
         
-        // Không hiện câu hỏi ngay mà quay về màn hình chờ nhấn nút bắt đầu
-        part1.classList.remove('hidden');
-        startBtn.classList.remove('hidden'); 
-        document.body.style.backgroundImage = "url('background_main.jpg')";
+        part2.classList.remove('hidden'); 
+        document.body.style.backgroundImage = "url('background_questions.jpg')";
+        showQuestion(currentQuestionIndex);
     });
 });
