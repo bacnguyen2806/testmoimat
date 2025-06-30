@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc Nghiệm Mức Độ Mỏi Mắt</title>
+    <link rel="stylesheet" href="style.css">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <audio id="background-audio" src="background_music.mp3" loop></audio>
+    <audio id="intro-audio" src="audio_intro.mp3"></audio>
+    <audio id="page-turn-sound" src="sound_page_turn.mp3" preload="auto"></audio>
+
+    <div id="question-audios" class="hidden">
+        <audio id="audio_q_1" src="question_1.mp3"></audio>
+        <audio id="audio_q_2" src="question_2.mp3"></audio>
+        <audio id="audio_q_3" src="question_3.mp3"></audio>
+        <audio id="audio_q_4" src="question_4.mp3"></audio>
+        <audio id="audio_q_5" src="question_5.mp3"></audio>
+        <audio id="audio_q_6" src="question_6.mp3"></audio>
+        <audio id="audio_q_7" src="question_7.mp3"></audio>
+        <audio id="audio_q_8" src="question_8.mp3"></audio>
+        <audio id="audio_q_9" src="question_9.mp3"></audio>
+        <audio id="audio_q_10" src="question_10.mp3"></audio>
+        <audio id="audio_q_11" src="question_11.mp3"></audio>
+        <audio id="audio_q_12" src="question_12.mp3"></audio>
+        <audio id="audio_q_13" src="question_13.mp3"></audio>
+        <audio id="audio_q_14" src="question_14.mp3"></audio>
+        <audio id="audio_q_15" src="question_15.mp3"></audio>
+        <audio id="audio_q_16" src="question_16.mp3"></audio>
+        <audio id="audio_q_17" src="question_17.mp3"></audio>
+    </div>
+
+
+    <div id="result-audios" class="hidden">
+        <audio id="result_audio_0" src="result_audio_0.mp3"></audio>
+        <audio id="result_audio_1" src="result_audio_1.mp3"></audio>
+        <audio id="result_audio_2" src="result_audio_2.mp3"></audio>
+        <audio id="result_audio_3" src="result_audio_3.mp3"></audio>
+    </div>
+
+    <div id="sound-toggle-btn" class="sound-on"></div>
+
+    <div class="main-container">
+        <div id="part1" class="content-section">
+            <button id="start-btn" class="custom-btn hidden"></button>
+        </div>
+
+        <div id="part2" class="content-section hidden">
+            <h2 id="question-title"></h2>
+            <div class="question-body">
+                <label class="group-label">Mức độ:</label>
+                <div id="level-options">
+                    <label><input type="radio" name="level" value="0"> Không</label>
+                    <label><input type="radio" name="level" value="1"> Nhẹ</label>
+                    <label><input type="radio" name="level" value="2"> Trung bình</label>
+                    <label><input type="radio" name="level" value="3"> Nặng</label>
+                </div>
+            </div>
+            <div class="navigation-buttons">
+                <button id="back-btn" class="custom-btn"></button>
+                <button id="next-btn" class="custom-btn"></button>
+                <button id="results-btn" class="custom-btn hidden"></button>
+            </div>
+        </div>
+
+        <div id="result-wrapper" class="hidden">
+            <div id="part3" class="content-section">
+                <h1 id="result-text"></h1>
+            </div>
+            <button id="restart-btn" class="custom-btn"></button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
