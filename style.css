@@ -13,7 +13,6 @@ body, html {
     transition: background-image 1s ease-in-out;
 }
 
-/* THAY ĐỔI: Quản lý hình nền bằng class */
 body {
     background-image: url('background_main.jpg');
 }
@@ -22,30 +21,7 @@ body.questions-active {
     background-image: url('background_questions.jpg');
 }
 
-/* Nút điều khiển âm thanh */
-#sound-toggle-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    z-index: 1000;
-}
-.sound-on { background-image: url('button_sound_on.png'); }
-.sound-off { background-image: url('button_sound_off.png'); }
-
-/* Container chính */
-.main-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-}
+/* ... các style khác không thay đổi ... */
 
 .content-section {
     padding: 40px;
@@ -55,183 +31,77 @@ body.questions-active {
 
 .hidden { display: none !important; }
 
-#part1.content-section {
-    background: none;
-    box-shadow: none;
-}
-
 #part2.content-section {
     color: #000000;
     border-radius: 20px;
 }
 
-@keyframes fade-out {
-    from { opacity: 1; }
-    to { opacity: 0; }
+/* === CẬP NHẬT ANIMATION MƯỢT MÀ HƠN TẠI ĐÂY === */
+@keyframes fade-slide-out {
+    from { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to { 
+        opacity: 0;
+        transform: translateY(-20px);
+    }
 }
 
-@keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes fade-slide-in {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 #part2.is-fading-out {
-    animation: fade-out 0.5s forwards ease-out;
+    animation: fade-slide-out 0.4s forwards ease-in-out;
 }
 
 #part2.is-fading-in {
-    animation: fade-in 0.5s forwards ease-in;
+    animation: fade-slide-in 0.4s forwards ease-in-out;
 }
+/* === KẾT THÚC CẬP NHẬT ANIMATION === */
 
 #result-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
+    /* ... các style khác không thay đổi ... */
 }
+/* ... Các style còn lại của bạn giữ nguyên như cũ ... */
 
-#part3.content-section {
-    width: 100%;
-    background-color: rgba(252, 219, 209, 0.7);
-    color: #4e342e;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-#part3.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-@keyframes reveal-char {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-#result-text {
-    font-size: 3.5em;
-    line-height: 1.2;
-}
-
-#result-text.is-visible span {
-    display: inline-block;
-    opacity: 0;
-    animation: reveal-char 0.6s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* Các nút bấm */
-.custom-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: transform 0.1s ease;
-}
-
+/* Dán các style còn lại từ file cũ của bạn vào đây */
+#sound-toggle-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background-size: contain; background-repeat: no-repeat; cursor: pointer; z-index: 1000; }
+.sound-on { background-image: url('button_sound_on.png'); }
+.sound-off { background-image: url('button_sound_off.png'); }
+.main-container { display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; text-align: center; }
+#part1.content-section { background: none; box-shadow: none; }
+#result-wrapper { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+#part3.content-section { width: 100%; background-color: rgba(252, 219, 209, 0.7); color: #4e342e; border-radius: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+#part3.is-visible { opacity: 1; transform: translateY(0); }
+@keyframes reveal-char { from { opacity: 0; transform: translateY(20px) scale(0.8); } to { opacity: 1; transform: translateY(0) scale(1); } }
+#result-text { font-size: 3.5em; line-height: 1.2; }
+#result-text.is-visible span { display: inline-block; opacity: 0; animation: reveal-char 0.6s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.custom-btn { background-color: transparent; border: none; cursor: pointer; background-size: contain; background-repeat: no-repeat; background-position: center; transition: transform 0.1s ease; }
 #start-btn { width: 220px; height: 80px; background-image: url('button_start_normal.png'); }
 #start-btn:active { background-image: url('button_start_pressed.png'); transform: scale(0.95); }
 #restart-btn { width: 220px; height: 80px; background-image: url('button_restart_normal.png'); opacity: 0; transition: opacity 0.8s ease-in; }
 #restart-btn.is-visible { opacity: 1; }
 #restart-btn:active { background-image: url('button_restart_pressed.png'); transform: scale(0.95); }
-
 #back-btn { width: 160px; height: 60px; background-image: url('button_back_normal.png'); margin-right: 15px; }
 #back-btn:active { background-image: url('button_back_pressed.png'); transform: scale(0.95); }
 #next-btn { width: 160px; height: 60px; background-image: url('button_next_normal.png'); }
 #next-btn:active { background-image: url('button_next_pressed.png'); transform: scale(0.95); }
 #results-btn { width: 160px; height: 60px; background-image: url('button_results_normal.png'); }
 #results-btn:active { background-image: url('button_results_pressed.png'); transform: scale(0.95); }
-
-
-#question-title {
-    font-size: 2.2em;
-    margin-bottom: 30px;
-    line-height: 1.4;
-}
-.question-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-    text-align: left;
-}
-.group-label {
-    font-weight: bold;
-    font-size: 1.5em;
-    margin-bottom: 15px;
-}
-#level-options {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-#level-options label {
-    font-size: 1.3em;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-}
-#level-options input[type="radio"] {
-    margin-right: 15px;
-    width: 20px;
-    height: 20px;
-}
-.navigation-buttons {
-    margin-top: 20px;
-}
-
-
-/* === THÊM ĐOẠN CODE RESPONSIVE CHO MOBILE TẠI ĐÂY === */
-@media (max-width: 768px) {
-    /* Đổi hình nền cho mobile */
-    body {
-        background-image: url('background_main_mb.jpg');
-    }
-
-    body.questions-active {
-        background-image: url('background_questions_mb.jpg');
-    }
-
-    /* Tinh chỉnh lại bố cục và font chữ cho dễ nhìn hơn */
-    .content-section {
-        width: 90%; /* Tăng chiều rộng để vừa màn hình hơn */
-        padding: 20px; /* Giảm padding */
-    }
-
-    #question-title {
-        font-size: 1.8em; /* Giảm cỡ chữ tiêu đề câu hỏi */
-        margin-bottom: 20px;
-    }
-    
-    #level-options label {
-        font-size: 1.1em; /* Giảm cỡ chữ lựa chọn */
-    }
-
-    .group-label {
-        font-size: 1.3em;
-    }
-
-    #result-text {
-        font-size: 2.5em; /* Giảm cỡ chữ kết quả */
-    }
-
-    /* Chỉnh lại kích thước nút cho vừa tay hơn */
-    #start-btn, #restart-btn {
-        width: 180px;
-        height: 65px;
-    }
-    #back-btn, #next-btn, #results-btn {
-        width: 130px;
-        height: 49px;
-    }
-}
+#question-title { font-size: 2.2em; margin-bottom: 30px; line-height: 1.4; }
+.question-body { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; text-align: left; }
+.group-label { font-weight: bold; font-size: 1.5em; margin-bottom: 15px; }
+#level-options { display: flex; flex-direction: column; gap: 15px; }
+#level-options label { font-size: 1.3em; cursor: pointer; display: flex; align-items: center; }
+#level-options input[type="radio"] { margin-right: 15px; width: 20px; height: 20px; }
+.navigation-buttons { margin-top: 20px; }
+@media (max-width: 768px) { body { background-image: url('background_main_mb.jpg'); } body.questions-active { background-image: url('background_questions_mb.jpg'); } .content-section { width: 90%; padding: 20px; } #question-title { font-size: 1.8em; margin-bottom: 20px; } #level-options label { font-size: 1.1em; } .group-label { font-size: 1.3em; } #result-text { font-size: 2.5em; } #start-btn, #restart-btn { width: 180px; height: 65px; } #back-btn, #next-btn, #results-btn { width: 130px; height: 49px; } }
