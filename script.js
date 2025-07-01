@@ -61,25 +61,40 @@ document.addEventListener('DOMContentLoaded', () => {
         introAudio.onended = () => {
             part1.classList.add('hidden');
             part2.classList.remove('hidden');
-            // THAY ĐỔI: Thêm class thay vì đổi style trực tiếp
             document.body.classList.add('questions-active');
             showQuestion(currentQuestionIndex);
         };
     });
 
-
+    // === CẢI TIẾN HÀM SHOWQUESTION ĐỂ TRÁNH LỖI ===
     function showQuestion(index) {
+        // Luôn dừng audio cũ trước
         if (currentPlayingAudio && !currentPlayingAudio.paused) {
             currentPlayingAudio.pause();
             currentPlayingAudio.currentTime = 0;
         }
-        currentPlayingAudio = questionAudios[index];
-        currentPlayingAudio.play().catch(e => console.error("Lỗi phát audio câu hỏi:", e));
+
+        // 1. Hiển thị nội dung câu hỏi NGAY LẬP TỨC
+        // Điều này đảm bảo câu hỏi luôn hiện ra, kể cả khi audio bị lỗi
         questionTitle.textContent = questions[index];
         const savedScore = userAnswers[index];
         levelOptions.forEach(radio => {
             radio.checked = (parseInt(radio.value) === savedScore);
         });
+
+        // 2. Xử lý audio sau, với kiểm tra an toàn
+        currentPlayingAudio = questionAudios[index];
+        // Chỉ phát nếu audio tồn tại
+        if (currentPlayingAudio) {
+            currentPlayingAudio.play().catch(e => {
+                console.error(`Lỗi phát audio câu hỏi ${index + 1}:`, e);
+                // Dù lỗi, chương trình vẫn chạy tiếp
+            });
+        } else {
+            console.warn(`Không tìm thấy thẻ audio cho câu hỏi ${index + 1}`);
+        }
+
+        // 3. Cập nhật các nút điều hướng
         backBtn.classList.toggle('hidden', index === 0);
         nextBtn.classList.toggle('hidden', index === questions.length - 1);
         resultsBtn.classList.toggle('hidden', index !== questions.length - 1);
@@ -145,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         part2.classList.add('hidden');
         resultWrapper.classList.remove('hidden');
-        // THAY ĐỔI: Xóa class thay vì đổi style trực tiếp
         document.body.classList.remove('questions-active');
 
         part3.classList.add('is-visible');
@@ -183,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
         resultText.innerHTML = '';
         
         part2.classList.remove('hidden'); 
-        // THAY ĐỔI: Thêm class thay vì đổi style trực tiếp
         document.body.classList.add('questions-active');
         showQuestion(currentQuestionIndex);
     });
