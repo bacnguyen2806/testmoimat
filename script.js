@@ -52,8 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     startBtn.addEventListener('click', () => {
-        console.log("Start button clicked. Unlocking audio...");
-
         backgroundAudio.play().catch(e => console.error("Lỗi phát nhạc nền:", e));
         updateSoundIcon();
 
@@ -61,10 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
         startBtn.classList.add('hidden');
 
         introAudio.onended = () => {
-            console.log("Intro audio ended. Starting quiz...");
             part1.classList.add('hidden');
             part2.classList.remove('hidden');
-            document.body.style.backgroundImage = "url('background_questions.jpg')";
+            // THAY ĐỔI: Thêm class thay vì đổi style trực tiếp
+            document.body.classList.add('questions-active');
             showQuestion(currentQuestionIndex);
         };
     });
@@ -90,29 +88,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function transitionToQuestion(direction) {
         if (isTransitioning) return;
         isTransitioning = true;
-
-        // === KÍCH HOẠT LẠI ÂM THANH LẬT TRANG TẠI ĐÂY ===
-        playPageTurnSound(); 
-
+        playPageTurnSound();
         part2.classList.add('is-fading-out');
-
         part2.addEventListener('animationend', () => {
             if (direction === 'next') {
                 currentQuestionIndex++;
             } else if (direction === 'back') {
                 currentQuestionIndex--;
             }
-
             showQuestion(currentQuestionIndex);
-
             part2.classList.remove('is-fading-out');
             part2.classList.add('is-fading-in');
-
             part2.addEventListener('animationend', () => {
                 part2.classList.remove('is-fading-in');
                 isTransitioning = false;
             }, { once: true });
-
         }, { once: true });
     }
 
@@ -120,8 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedOption = document.querySelector('input[name="level"]:checked');
         userAnswers[currentQuestionIndex] = selectedOption ? parseInt(selectedOption.value) : 0;
     }
-
-    // Hàm phát âm thanh lật trang
+    
     function playPageTurnSound() {
         const sound = pageTurnSound.cloneNode(true);
         sound.volume = 0.7;
@@ -156,10 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         part2.classList.add('hidden');
         resultWrapper.classList.remove('hidden');
-        document.body.style.backgroundImage = "url('background_main.jpg')";
+        // THAY ĐỔI: Xóa class thay vì đổi style trực tiếp
+        document.body.classList.remove('questions-active');
 
         part3.classList.add('is-visible');
-
         resultText.innerHTML = '';
 
         if (resultAudio) {
@@ -194,7 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resultText.innerHTML = '';
         
         part2.classList.remove('hidden'); 
-        document.body.style.backgroundImage = "url('background_questions.jpg')";
+        // THAY ĐỔI: Thêm class thay vì đổi style trực tiếp
+        document.body.classList.add('questions-active');
         showQuestion(currentQuestionIndex);
     });
 });
