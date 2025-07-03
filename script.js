@@ -153,10 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let resultString = '';
         let resultAudio = null;
 
-        if (totalScore <= 12) resultString = "Không mỏi mắt", resultAudio = resultAudios[0];
-        else if (totalScore <= 17) resultString = "Mỏi mắt nhẹ", resultAudio = resultAudios[1];
-        else if (totalScore <= 33) resultString = "Mỏi mắt trung bình", resultAudio = resultAudios[2];
-        else resultString = "Mỏi mắt nặng", resultAudio = resultAudios[3];
+        if (totalScore <= 12) resultString = "Mắt đủ wow", resultAudio = resultAudios[0];
+        else if (totalScore <= 17) resultString = "Mắt mệt", resultAudio = resultAudios[1];
+        else if (totalScore <= 33) resultString = "Mắt lag", resultAudio = resultAudios[2];
+        else resultString = "Mắt căng cực", resultAudio = resultAudios[3];
 
         part2.classList.add('hidden');
         resultWrapper.classList.remove('hidden');
